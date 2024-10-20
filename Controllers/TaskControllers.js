@@ -4,13 +4,13 @@ const ErrorHandler = require("../Utils/ErrorHandler");
 exports.CreateTask = async(req,res,next) => {
     try {
 
-        const {title,description,priority,status} = req.body;
+        const {title,description,priority,status,due_date,category_id} = req.body;
 
         if(!title || !description){
             res.status(400).json({message:"Fill the required field"});
         }
 
-        const data = await pool.query("INSERT INTO tasks (title,description,priority,status) values ($1,$2,$3,$4) RETURNING *",[title,description,priority,status]);
+        const data = await pool.query("INSERT INTO tasks (title,description,priority,status,due_date,category_id) values ($1,$2,$3,$4,$5,$6) RETURNING *",[title,description,priority,status,due_date,category_id]);
         if(!data){
             console.log("Task not created");
         }
@@ -19,14 +19,6 @@ exports.CreateTask = async(req,res,next) => {
             message:"New Task Created",
             task: data.rows[0]
         })
-
-        // pool.query("INSERT INTO tasks (title,description,priority,status) values ($1,$2,$3,$4) RETURNING *",[title,description,priority,status],(error,data)=>{
-        //     if(error){
-        //         res.status(400).json({message:error.message});
-        //     }else{
-        //         res.status(200).json({data:data.rows[0]})
-        //     }
-        // })
 
     } catch (error) {
         // res.status(500).json({message:"Internal Server Error"});
