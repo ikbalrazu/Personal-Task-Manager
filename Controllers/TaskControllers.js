@@ -11,6 +11,7 @@ exports.CreateTask = async(req,res,next) => {
         }
 
         const data = await pool.query("INSERT INTO tasks (title,description,priority,status,due_date,category_id) values ($1,$2,$3,$4,$5,$6) RETURNING *",[title,description,priority,status,due_date,category_id]);
+        console.log(data);
         if(!data){
             console.log("Task not created");
         }
@@ -22,7 +23,7 @@ exports.CreateTask = async(req,res,next) => {
 
     } catch (error) {
         // res.status(500).json({message:"Internal Server Error"});
-        next(new ErrorHandler("Internal Server Error",500));
+        return next(new ErrorHandler("Internal Server Error",500));
     }
 }
 
@@ -32,13 +33,13 @@ exports.GetAllTasks = async(req,res,next)=>{
         if(alltasks.rowCount === 0){
             next(new ErrorHandler("No task available right now!",404));
         }
-        res.status(200).json({
+        return res.status(200).json({
             success:true,
             rowCount: alltasks.rowCount,
             alltasks:alltasks.rows
         });
     } catch (error) {
-        next(new ErrorHandler("Internal Server Error",500));
+        return next(new ErrorHandler("Internal Server Error",500));
     }
 }
 
