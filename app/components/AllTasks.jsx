@@ -1,7 +1,9 @@
 "use client"
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import TaskItem from './TaskItem';
+import CreateTask from './CreateTask';
+import apiClient from '../config/apiClient';
+import axios from 'axios';
 
 const AllTasks = () => {
     const [tasks, setTasks] = useState();
@@ -23,6 +25,7 @@ const AllTasks = () => {
         {tasks?.map((task)=>(
             <TaskItem key={task.id} task={task}/>
         ))}
+        <CreateTask/>
     </div>
   )
 }

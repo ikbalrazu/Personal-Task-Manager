@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import Link from "next/link";
 import Sidebar from "./components/Sidebar";
 
 const geistSans = localFont({
@@ -22,11 +23,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className="flex flex-row"
+        className="flex flex-row justify-center"
       >
         <div className="basis-1/5">
-        <Sidebar/>
+        <nav>
+          <ul>
+            <li><Link href="/alltasks">All Tasks</Link></li>
+          </ul>
+        </nav>
+        {/* <Sidebar/> */}
         </div>
+
         
         <main className="basis-1/2">
         {children}
